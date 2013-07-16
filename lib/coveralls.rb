@@ -29,6 +29,9 @@ module Coveralls
 
   def push!
     require 'simplecov'
+    if merge_timeout
+      ::SimpleCov.merge_timeout(merge_timeout)
+    end
     result = ::SimpleCov::ResultMerger.merged_result
     Coveralls::SimpleCov::Formatter.new.format result
   end
@@ -94,5 +97,11 @@ module Coveralls
 
   def noisy?
     ENV["COVERALLS_NOISY"] || @noisy
+  end
+
+  def merge_timeout
+    merge_timeout = ENV["COVERALLS_MERGE_TIMEOUT"].to_i if ENV["COVERALLS_MERGE_TIMEOUT"]
+    merge_timeout ||= @merge_timeout
+    merge_timeout
   end
 end
