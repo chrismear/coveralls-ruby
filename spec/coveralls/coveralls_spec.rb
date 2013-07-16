@@ -63,6 +63,14 @@ describe Coveralls do
       end
       result.should be_true
     end
+
+    it "passes the COVERALLS_MERGE_TIMEOUT environment variable to SimpleCov" do
+      ENV["COVERALLS_MERGE_TIMEOUT"] = "3600"
+      silence do
+        subject.push!
+      end
+      ::SimpleCov.merge_timeout.should be 3600
+    end
   end
 
   describe "#setup!" do
