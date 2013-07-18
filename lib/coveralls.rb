@@ -34,6 +34,7 @@ module Coveralls
     end
     result = ::SimpleCov::ResultMerger.merged_result
     Coveralls::SimpleCov::Formatter.new.format result
+  rescue LoadError
   end
 
   def setup!
